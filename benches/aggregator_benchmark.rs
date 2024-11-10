@@ -11,6 +11,10 @@ fn benchmark_aggregate_hashes(c: &mut Criterion) {
     c.bench_function("aggreagete hashes by parts", |b| {
         b.iter(|| aggregator::aggregate_hashes_by_parts(black_box(&hashes)))
     });
+
+    c.bench_function("aggreagete hashes by parts (parallel-process)", |b| {
+        b.iter(|| aggregator::parallel_aggregate_hashes_by_parts(black_box(hashes.clone())))
+    });
 }
 
 criterion_group!(benches, benchmark_aggregate_hashes,);
