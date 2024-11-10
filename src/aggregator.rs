@@ -56,9 +56,9 @@ where
         } else {
             start + size_per_thread
         };
-
-        let mut ranged_res = Vec::new();
-        let mut ranged_carry_out = Vec::new();
+        let len = end - start + 1;
+        let mut ranged_res = Vec::with_capacity(len);
+        let mut ranged_carry_out = Vec::with_capacity(len);
 
         let handle = thread::spawn(move || {
             let shared_hashes = shared_hashes.as_ref();
@@ -74,8 +74,8 @@ where
         handles.push(handle);
     }
 
-    let mut flatten_res = vec![];
-    let mut flatten_carry_out = vec![];
+    let mut flatten_res = Vec::with_capacity(HASH_LENGTH_U64);
+    let mut flatten_carry_out = Vec::with_capacity(HASH_LENGTH_U64);
 
     // Wait for all threads to finish
     for h in handles {
